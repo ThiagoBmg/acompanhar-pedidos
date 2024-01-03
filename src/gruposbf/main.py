@@ -1,18 +1,16 @@
 import os
 import requests
 from time import sleep
-from bs4 import BeautifulSoup
 from decouple import config
+from bs4 import BeautifulSoup
 from datetime import datetime
 
-NUMERO_PEDIDO = config("NF", default="96218810901")
-
-# INTERVAL = 600 # 10 min
-INTERVAL = 10
+INTERVAL = 60
 URL = f"https://gruposbf.brudam.com.br/tracking/Painel.php?cPed={NUMERO_PEDIDO}"
+NUMERO_PEDIDO = config("NUMERO_PEDIDO", default="X")
 
 
-def teste(html):
+def run(html):
     soup = BeautifulSoup(html, "html.parser")
 
     # Extrai o número do pedido
@@ -75,7 +73,7 @@ while True:
         os.system("clear")
         print("*" * 60, end="\n")
         print(f"Iniciando pesquisa... {current}")
-        teste(response.text)
+        run(response.text)
     except Exception as exc:
         print(f"Erro ao buscar informações {exc}")
     print("*" * 60, end="\n")
